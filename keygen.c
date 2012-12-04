@@ -12,7 +12,7 @@
 #include "policy_lang.h"
 
 //If 1, we are doing a performance test, meaning it will run the main function 100 times
-#define PERFTEST 0
+#define PERFTEST 1
 char* usage =
 "Usage: cpabe-keygen [OPTION ...] PUB_KEY MASTER_KEY ATTR [ATTR ...]\n"
 "\n"
@@ -147,7 +147,7 @@ main( int argc, char** argv )
 	//End Timer, display output
 	end=clock();
 	time_result = (float) (end-start)/(float) CLOCKS_PER_SEC;
-	printf("Computation took %f seconds",time_result);
+	printf("Computation took %f seconds\n",time_result);
 	
 	spit_file(out_file, bswabe_prv_serialize(prv), 1);
 
