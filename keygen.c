@@ -5,7 +5,7 @@
 #include <glib.h>
 #include <pbc.h>
 #include <pbc_random.h>
-#include <ctime>
+#include <time.h>
 
 #include "bswabe.h"
 #include "common.h"
