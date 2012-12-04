@@ -126,6 +126,7 @@ main( int argc, char** argv )
 
 	clock_t start, end;
 	float time_result;
+	int i;
 	
 	parse_args(argc, argv);
 
@@ -136,7 +137,7 @@ main( int argc, char** argv )
 	start=clock();
 	if(PERFTEST)
 	{
-		for(int i=0;i<100;i++)
+		for(i=0;i<100;i++)
 		{
 			prv = bswabe_keygen(pub, msk, attrs);
 		}
