@@ -5,11 +5,14 @@
 #include <glib.h>
 #include <pbc.h>
 #include <pbc_random.h>
+#include <ctime>
 
 #include "bswabe.h"
 #include "common.h"
 #include "policy_lang.h"
 
+//If 1, we are doing a performance test, meaning it will run the main function 100 times
+#define PERFTEST = 0
 char* usage =
 "Usage: cpabe-keygen [OPTION ...] PUB_KEY MASTER_KEY ATTR [ATTR ...]\n"
 "\n"
@@ -121,12 +124,30 @@ main( int argc, char** argv )
 	bswabe_msk_t* msk;
 	bswabe_prv_t* prv;
 
+	clock_t start, end;
+	float time_result;
+	
 	parse_args(argc, argv);
 
 	pub = bswabe_pub_unserialize(suck_file(pub_file), 1);
 	msk = bswabe_msk_unserialize(pub, suck_file(msk_file), 1);
-
-	prv = bswabe_keygen(pub, msk, attrs);
+	
+	//Start Timer
+	start=clock();
+	if(PERFTEST)
+	{
+		for(int i=0;i<100;i++)
+		{
+			prv = bswabe_keygen(pub, msk, attrs);
+		}
+	}
+	else
+		prv = bswabe_keygen(pub, msk, attrs);
+	//End Timer, display output
+	end=clock();
+	time_result = (float) (end-start)/(float) CLOCKS_PER_SEC;
+	printf("Computation took %f seconds",time_result);
+	
 	spit_file(out_file, bswabe_prv_serialize(prv), 1);
 
 	return 0;
