@@ -77,9 +77,11 @@ main( int argc, char** argv )
 
 	parse_args(argc, argv);
 
+	printf("Starting Setup\n");
 	bswabe_setup(&pub, &msk);
 	spit_file(pub_file, bswabe_pub_serialize(pub), 1);
 	spit_file(msk_file, bswabe_msk_serialize(msk), 1);
+	printf("Setup Complete\n");
 
 	return 0;
 }
