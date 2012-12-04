@@ -12,7 +12,7 @@
 #include "policy_lang.h"
 
 //If 1, we are doing a performance test, meaning it will run the main function 100 times
-#define PERFTEST = 0
+#define PERFTEST 0
 char* usage =
 "Usage: cpabe-keygen [OPTION ...] PUB_KEY MASTER_KEY ATTR [ATTR ...]\n"
 "\n"
