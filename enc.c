@@ -101,7 +101,7 @@ main( int argc, char** argv )
 	element_t m;
 	
 	clock_t start, end;
-	float time_result;
+	//float time_result;
 
 	parse_args(argc, argv);
 
@@ -121,12 +121,13 @@ main( int argc, char** argv )
 	aes_buf = aes_128_cbc_encrypt(plt, m);
 	g_byte_array_free(plt, 1);
 	element_clear(m);
-
-	write_cpabe_file(out_file, cph_buf, file_len, aes_buf);
+	
 	//End Timer, display output
 	end=clock();
-	time_result = (float) (end-start)/(float) CLOCKS_PER_SEC;
-	printf("Computation took %f seconds\n",time_result);
+	//time_result =(end-start);
+	printf("Computation took %d cycles\n",end-start);
+	
+	write_cpabe_file(out_file, cph_buf, file_len, aes_buf);	
 	
 	g_byte_array_free(cph_buf, 1);
 	g_byte_array_free(aes_buf, 1);
