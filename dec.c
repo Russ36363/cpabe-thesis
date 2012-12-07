@@ -4,6 +4,7 @@
 #include <glib.h>
 #include <pbc.h>
 #include <pbc_random.h>
+#include <time.h>
 
 #include "bswabe.h"
 #include "common.h"
@@ -141,12 +142,18 @@ main( int argc, char** argv )
 	GByteArray* cph_buf;
 	bswabe_cph_t* cph;
 	element_t m;
-
+	
+	clock_t start, end;
+	float time_result;
+	
 	parse_args(argc, argv);
 
 	pub = bswabe_pub_unserialize(suck_file(pub_file), 1);
 	prv = bswabe_prv_unserialize(pub, suck_file(prv_file), 1);
 
+	//Start timer
+	start=clock();
+	
 	read_cpabe_file(in_file, &cph_buf, &file_len, &aes_buf);
 
 	cph = bswabe_cph_unserialize(pub, cph_buf, 1);
@@ -160,6 +167,11 @@ main( int argc, char** argv )
 
 	spit_file(out_file, plt, 1);
 
+	//End Timer, display output
+	end=clock();
+	time_result = (float) (end-start)/(float) CLOCKS_PER_SEC;
+	printf("Computation took %f seconds\n",time_result);
+	
 	if( !keep )
 		unlink(in_file);
 
