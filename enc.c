@@ -3,6 +3,7 @@
 #include <glib.h>
 #include <pbc.h>
 #include <pbc_random.h>
+#include <time.h>
 
 #include "bswabe.h"
 #include "common.h"
@@ -98,12 +99,17 @@ main( int argc, char** argv )
 	GByteArray* cph_buf;
 	GByteArray* aes_buf;
 	element_t m;
+	
+	clock_t start, end;
+	float time_result;
 
 	parse_args(argc, argv);
 
 	pub = bswabe_pub_unserialize(suck_file(pub_file), 1);
-
-  if( !(cph = bswabe_enc(pub, m, policy)) )
+	
+	//Start timer
+	start=clock();
+ 	if( !(cph = bswabe_enc(pub, m, policy)) )
 		die("%s", bswabe_error());
 	free(policy);
 
@@ -117,7 +123,11 @@ main( int argc, char** argv )
 	element_clear(m);
 
 	write_cpabe_file(out_file, cph_buf, file_len, aes_buf);
-
+	//End Timer, display output
+	end=clock();
+	time_result = (float) (end-start)/(float) CLOCKS_PER_SEC;
+	printf("Computation took %f seconds\n",time_result);
+	
 	g_byte_array_free(cph_buf, 1);
 	g_byte_array_free(aes_buf, 1);
 
